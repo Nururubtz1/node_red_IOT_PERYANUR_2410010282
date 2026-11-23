@@ -1,3 +1,8 @@
+# BIODATA
+Nama : Peryanur
+NPM : 2410010282
+Kelas : 5N REG BJM
+
 # ESP32 IoT Monitoring - versi perbaikan history dan WebSocket
 
 ## Isi perbaikan
@@ -39,14 +44,3 @@ curl.exe -X PUT http://localhost:1880/api/threshold `
   -H "Content-Type: application/json" `
   -d '{"threshold":31.5}'
 ```
-
-## Jika muncul error WebSocket listener duplikat
-
-Flow ini hanya berisi **satu** konfigurasi `websocket-listener` dengan path `/ws/sensor` (ID pada file ini: `6c08b8d75fefffae`). Jika Node-RED tetap menampilkan `Cannot have two WebSocket listeners on the same path: /ws/sensor`, berarti ada listener lain dari flow/tab lama yang masih aktif. Buka menu Export > all flows, cari semua kemunculan `"path": "/ws/sensor"`, lalu hapus konfigurasi listener duplikat atau ubah salah satunya beserta alamat WebSocket pada dashboard yang menggunakannya. Jangan menghapus node `websocket out` yang memakai listener tunggal tersebut.
-
-## Catatan
-
-- Jika riwayat menampilkan nilai kosong, import ulang `flow1.json` dan klik Deploy. Node SQLite pada flow ini membutuhkan placeholder `$nama` agar parameter pada `msg.payload` terikat dengan benar; baris lama yang tersimpan sebagai `NULL` tidak dapat dipulihkan dan akan dilewati oleh API.
-- Database pada flow ini menggunakan nama `sensor.db`, bukan `esp32_history.sqlite`. Seluruh node SQLite pada flow memakai konfigurasi database yang sama.
-- Threshold suhu saat ini disimpan pada flow context Node-RED, bukan di tabel SQLite. Jika ingin threshold tetap bertahan setelah restart Node-RED, perlu menambahkan tabel pengaturan dan alur baca/tulis threshold.
-- API key yang disimpan di HTML hanya cocok untuk demo/lab lokal, bukan autentikasi produksi.
